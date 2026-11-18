@@ -1,10 +1,18 @@
+using LabEquipmentApi.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// PostgreSQL adatbázis regisztrációja
+builder.Services.AddDbContext<LabDbContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("LabDbConnection")
+    )
+);
 
 var app = builder.Build();
 
